@@ -1,0 +1,4 @@
+include web/*.js
+include web/*.html
+include web/*.css
+include web/
