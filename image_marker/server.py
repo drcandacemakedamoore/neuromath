@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 import logging
 import pkg_resources
+import json
 
 from http.server import BaseHTTPRequestHandler
 from os import path
 from urllib.parse import urlparse
 
+from .storage import Markers
+
 
 class LandingPage(BaseHTTPRequestHandler):
+
+    markers = None
 
     statics = {
         '.html': 'text/html',
@@ -68,11 +73,17 @@ class LandingPage(BaseHTTPRequestHandler):
         '''
         length = int(self.headers['content-length'])
         data = self.rfile.read(length)
-        if self.path == '/categories/get':
+        if self.path.startswith('/sample'):
+            if not LandingPage.markers:
+                LandingPage.markers = Markers('./marks')
+            data = json.loads(data)
+            parts = self.path.split('/')
+            LandingPage.markers.process_image(
+                image=data['image'],
+                organ=parts[2],
+                area=data['area'],
+            )
             self.send_preamble()
-            self.wfile.write(str(self.tree))
-        elif self.path == '/categories/put':
-            self.tree.add(data)
-            self.wfile.write(str(self.tree))
+            self.wfile.write('1')
         else:
             self.fail()

@@ -1,0 +1,35 @@
+#!/usr/bin/env python3.6
+# -*- mode: python; coding: utf-8 -*-
+
+import logging
+
+from argparse import ArgumentParser
+from tempfile import TemporaryDirectory
+from datetime import datetime
+
+from image_marker.storage import Markers
+
+
+def to_date(x):
+    return datetime.strptime(x, '%d%m%Y').date()
+
+parser = ArgumentParser()
+parser.add_argument(
+    'csvs',
+    nargs='+',
+    help='CSV file to import.',
+)
+parser.add_argument(
+    '--when',
+    type=to_date,
+    default=datetime.now().strftime('%d%m%Y'),
+    help='Date when the observation was made.',
+)
+
+args = parser.parse_args()
+logging.basicConfig(level=logging.INFO)
+
+with TemporaryDirectory() as tdir:
+    markers = Markers(tdir)
+    for csv in args.csvs:
+        markers.import_csv(csv, args.when)

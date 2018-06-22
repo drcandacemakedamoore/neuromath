@@ -2,12 +2,19 @@
 # -*- mode: python; coding: utf-8 -*-
 
 import logging
+import webview
 
+from threading import Thread
 from http.server import HTTPServer
 from optparse import OptionParser
 
 from image_marker.server import LandingPage
 
+
+def browser_thread(options):
+    server = HTTPServer(('', int(options.port)), LandingPage)
+    server.serve_forever()
+    # server.socket.close()
 
 parser = OptionParser()
 parser.add_option(
@@ -21,8 +28,10 @@ parser.add_option(
 options, args = parser.parse_args()
 logging.basicConfig(level=logging.INFO)
 
-try: 
-    server = HTTPServer(('', int(options.port)), LandingPage)
-    server.serve_forever()
-except KeyboardInterrupt:
-    server.socket.close()
+bt = Thread(target=browser_thread, args=(options,))
+bt.daemon = True
+bt.start()
+webview.create_window(
+    'Image Marker',
+    'http://localhost:{}'.format(options.port),
+)

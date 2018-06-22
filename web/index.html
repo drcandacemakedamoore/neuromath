@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Image Marker</title>
+    <meta charset="utf-8">
+    <title>Oleg and Makeda Image Marker</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="js/jquery-3.3.1.slim.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="tagger.js"></script>
+    <style>
+      .liver { background-color: #61bb46 }
+      .lesion { background-color: #fdb827 }
+      .soft-tissue { background-color: #f5821f }
+      .spleen { background-color: #e03a3e }
+      .bowel { background-color: #963d97 }
+      .swatch { position: absolute; left: 0; top: 0; width: 13px; height: 13px }
+    </style>
   </head>
   <body>
     <header>
@@ -15,16 +21,16 @@
             <div class="col-sm-8 col-md-7 py-4">
               <h4 class="text-white">About</h4>
               <p class="text-muted">
-                This program is intended for marking MRI images.<br/>
-                Put your images in a subdirectory of <pre>web/images/</pre>
+                This program is intended for marking MRI image for analysis.<br/>
+                Put your images in a subdirectory of <pre>web/mriimages/</pre>
                 directory of this program, then refresh the page.<br/>
                 Now you should see the newly uploaded images in the links below.
               </p>
             </div>
             <div class="col-sm-4 offset-md-1 py-4">
-              <h4 class="text-white">Contact</h4>
+              <h4 class="text-white">Contacts</h4>
               <ul class="list-unstyled">
-                <li><a href="mailto:olegsivokon@gmail.com" class="text-white">Email me</a></li>
+                <li><a href="mailto:makedadance@gmail.com" class="text-white">Email me</a></li>
               </ul>
             </div>
           </div>
@@ -66,16 +72,83 @@
         <div class="container">
           <h1 class="jumbotron-heading" id="current-image-title">Current Image</h1>
           <p class="lead text-muted">
-            Click on the colored rectangles
-            below to start marking the image.
+            Click on the colored buttons below to start marking the
+            image.  The mark will appear on the image once you click
+            on it.  Click anywhere outside the image to cancel.
           </p>
           <div>
-            <svg width=200 height=200 
+            <svg width=512 height=512
                  xmlns="http://www.w3.org/2000/svg" 
                  xmlns:xlink="http://www.w3.org/1999/xlink">       
-              <image xlink:href="https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png"
-                     height="200"
-                     width="200"/>
+              <image xlink:href="/img/t1.png"
+                     height="512"
+                     width="512"/>
+          </div>
+          <div class="btn-group btn-group-sm" role="group" aria-label="...">
+            <button id="lesion-one"
+                    type="button"
+                    class="btn btn-secondary lesion"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Lesion Area (1)">
+              Lesion (1)
+            </button>
+            <button id="lesion-two"
+                    type="button"
+                    class="btn btn-secondary lesion"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Lesion Area (2)">
+              Lesion (2)
+            </button>
+            <button id="liver-one"
+                    type="button"
+                    class="btn btn-secondary liver"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Liver Area (1)">
+              Liver (1)
+            </button>
+            <button id="liver-two"
+                    type="button"
+                    class="btn btn-secondary liver"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Liver Area (2)">
+              Liver (2)
+            </button>
+            <button id="soft-tissue-one"
+                    type="button"
+                    class="btn btn-secondary soft-tissue"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Soft Tissues (1)">
+              Soft Tissues (1)
+            </button>
+            <button id="soft-tissue-two"
+                    type="button"
+                    class="btn btn-secondary soft-tissue"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Soft Tissues (2)">
+              Soft Tissues (2)
+            </button>
+            <button id="spleen"
+                    type="button"
+                    class="btn btn-secondary spleen"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Spleen">
+              Spleen
+            </button>
+            <button id="bowel"
+                    type="button"
+                    class="btn btn-secondary bowel"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Bowel">
+              Bowel
+            </button>
           </div>
         </div>
       </section>
@@ -106,9 +179,13 @@
         <p class="float-right">
           <a href="#">Back to top</a>
         </p>
-        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
+        <p id="debug-info">Debug info.</p>
       </div>
     </footer>
+
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="tagger.js"></script>
+
   </body>
 </html>
