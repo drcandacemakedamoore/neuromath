@@ -37,7 +37,8 @@ setup(
         ('image_marker/web/js', [
             'web/js/bootstrap.bundle.min.js',
             'web/js/bootstrap.bundle.min.js.map',
-            'web/js/jquery-3.3.1.slim.min.js',
+            'web/js/jquery-3.3.1.min.js',
+            'web/js/svg.min.js',
         ]),
         ('image_marker/web/css', [
             'web/css/bootstrap.min.css',

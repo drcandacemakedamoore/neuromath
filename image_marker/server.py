@@ -76,6 +76,7 @@ class LandingPage(BaseHTTPRequestHandler):
         if self.path.startswith('/sample'):
             if not LandingPage.markers:
                 LandingPage.markers = Markers('./marks')
+            print('received: {}'.format(data))
             data = json.loads(data)
             parts = self.path.split('/')
             LandingPage.markers.process_image(

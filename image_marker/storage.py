@@ -55,13 +55,13 @@ class Markers:
     def import_csv(self, incsv, when):
         df = pd.read_csv(incsv, index_col=False)
         df['sample'] = df['sample'].map({
-            'leison_one': 'lesion_one',
-            'leison_two': 'lesion_two',
-            'liver_one': 'liver_one',
-            'liver_two': 'liver_two',
+            'leison_one': 'lesion',
+            'leison_two': 'lesion',
+            'liver_one': 'liver',
+            'liver_two': 'liver',
             'spleen': 'spleen',
-            'soft_tissue_one': 'soft_tissue_one',
-            'soft_tissue_two': 'soft_tissue_two',
+            'soft_tissue_one': 'soft_tissue',
+            'soft_tissue_two': 'soft_tissue',
             'bowels': 'bowels',
         })
         df['date'] = when
