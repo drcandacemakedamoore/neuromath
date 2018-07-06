@@ -3,16 +3,20 @@ import logging
 import pkg_resources
 import json
 
-from http.server import BaseHTTPRequestHandler
-from os import path
+from os import path, getcwd
 from urllib.parse import urlparse
+
+import tornado
+import tornado.ioloop
+import tornado.web
 
 from .storage import Markers
 
 
-class LandingPage(BaseHTTPRequestHandler):
+UPLOADS = 'uploads'
 
-    markers = None
+
+class PkgResources(tornado.web.RequestHandler):
 
     statics = {
         '.html': 'text/html',
@@ -26,65 +30,58 @@ class LandingPage(BaseHTTPRequestHandler):
         '.map': 'application/json',
     }
 
-    def serve_static(self, file, mime):
-        '''
-        Serves static files with given mime-type.
-        '''
-        res = 'web/{}'.format(file)
+    def render_resource(self, res):
         logging.info('Trying to serve: {}'.format(res))
+        ext = path.splitext(res)[1]
+        mime = self.statics[ext]
         if pkg_resources.resource_exists(__name__, res):
-            self.send_response(200)
-            self.send_header('Content-type', mime)
-            self.end_headers()
-            self.wfile.write(pkg_resources.resource_string(__name__, res))
+            self.set_header('Content-type', mime)
+            self.write(pkg_resources.resource_string(__name__, res))
         else:
             self.send_error(404, 'File Not Found: {}'.format(res))
 
-    def fail(self):
-        '''
-        Sends internal server error message.
-        '''
-        self.send_error(500, 'Don\'t know what to do with: %s' % self.path)
+    def get(self, *args):
+        res = path.join('web', *args)
+        self.render_resource(res)
 
-    def do_GET(self):
-        '''
-        Handles HTTP GET requests.
-        '''
-        url = urlparse(self.path)
-        extension = path.splitext(url.path)[1] or '.html'
-        if self.path == '/':
-            self.serve_static('index.html', self.statics['.html'])
-        elif extension.lower() in self.statics:
-            self.serve_static(url.path[1:], self.statics[extension.lower()])
-        else:
-            self.fail()
 
-    def send_preamble(self):
-        '''
-        Starts sending success message.
-        '''
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
+class LandingPage(PkgResources):
+    def get(self):
+        self.render_resource('/web/index.html')
 
-    def do_POST(self):
-        '''
-        Hanles AJAX requests.
-        '''
-        length = int(self.headers['content-length'])
-        data = self.rfile.read(length)
-        if self.path.startswith('/sample'):
-            if not LandingPage.markers:
-                LandingPage.markers = Markers('./marks')
-            print('received: {}'.format(data))
-            data = json.loads(data)
-            parts = self.path.split('/')
-            LandingPage.markers.process_image(
-                image=data['image'],
-                organ=parts[2],
-                area=data['area'],
-            )
-            self.send_preamble()
-            self.wfile.write('1')
-        else:
-            self.fail()
+
+class Upload(tornado.web.RequestHandler):
+    def post(self):
+        fileinfo = self.request.files['filearg'][0]
+        fname = fileinfo['filename']
+        dst = path.join(getcwd(), UPLOADS, fname)
+        with open(dst, 'wb') as f:
+            f.write(fileinfo['body'])
+        self.finish('{} is uploaded to {} folder'.format(fname, dst))
+
+
+class Sample(tornado.web.RequestHandler):
+
+    markers = None
+
+    def post(self):
+        if not Sample.markers:
+            LandingPage.markers = Markers('./marks')
+        data = self.request.body
+        print('received: {}'.format(data))
+        data = json.loads(data)
+        parts = self.path.selfplit('/')
+        Sample.markers.process_image(
+            image=data['image'],
+            organ=parts[2],
+            area=data['area'],
+        )
+        self.send_preamble()
+        self.write('1')
+
+
+application = tornado.web.Application([
+    (r'/', LandingPage),
+    (r'/(js|css|img)/(.+)', PkgResources),
+    (r'/file-upload', Upload),
+], debug=True)

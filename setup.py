@@ -32,13 +32,14 @@ setup(
     data_files=[
         ('image_marker/web', [
             'web/index.html',
-            'web/tagger.js',
         ]),
         ('image_marker/web/js', [
             'web/js/bootstrap.bundle.min.js',
             'web/js/bootstrap.bundle.min.js.map',
             'web/js/jquery-3.3.1.min.js',
             'web/js/svg.min.js',
+            'web/js/dropzone.js',
+            'web/js/tagger.js',
         ]),
         ('image_marker/web/css', [
             'web/css/bootstrap.min.css',
@@ -61,6 +62,7 @@ setup(
         'vext >= 0.7.0',
         'vext.gi >= 0.7.0',
         'sqlalchemy >= 1.2.8',
+        'tornado >= 5.0.2',
     ],
     tests_require=[
         'pytest >= 3.4.2',

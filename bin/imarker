@@ -3,10 +3,10 @@
 
 import logging
 
-from http.server import HTTPServer
 from optparse import OptionParser
+from tornado.ioloop import IOLoop
 
-from image_marker.server import LandingPage
+from image_marker.server import application
 
 
 parser = OptionParser()
@@ -19,10 +19,8 @@ parser.add_option(
 )
 
 options, args = parser.parse_args()
-logging.basicConfig(level=logging.INFO)
+logging.getLogger().setLevel(logging.INFO)
 
-try: 
-    server = HTTPServer(('', int(options.port)), LandingPage)
-    server.serve_forever()
-except KeyboardInterrupt:
-    server.socket.close()
+logging.info('Listenning on localhost:{}'.format(options.port))
+application.listen(options.port)
+IOLoop.instance().start()
