@@ -10,7 +10,7 @@ from scipy import misc, stats
 from skimage.feature import greycomatrix, greycoprops
 
 
-class Marker:
+class Marker(object):
 
     columns = [
         'dissimilarity',

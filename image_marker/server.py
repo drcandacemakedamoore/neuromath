@@ -16,38 +16,11 @@ from .storage import Markers
 UPLOADS = 'uploads'
 
 
-class PkgResources(tornado.web.RequestHandler):
-
-    statics = {
-        '.html': 'text/html',
-        '.htm': 'text/html',
-        '.js': 'application/javascript',
-        '.css': 'text/css',
-        '.jpg': 'image/jpg',
-        '.png': 'image/png',
-        '.bmp': 'image/bmp',
-        '.gif': 'image/gif',
-        '.map': 'application/json',
-    }
-
-    def render_resource(self, res):
-        logging.info('Trying to serve: {}'.format(res))
-        ext = path.splitext(res)[1]
-        mime = self.statics[ext]
-        if pkg_resources.resource_exists(__name__, res):
-            self.set_header('Content-type', mime)
-            self.write(pkg_resources.resource_string(__name__, res))
-        else:
-            self.send_error(404, 'File Not Found: {}'.format(res))
-
-    def get(self, *args):
-        res = path.join('web', *args)
-        self.render_resource(res)
-
-
-class LandingPage(PkgResources):
+class LandingPage(tornado.web.RequestHandler):
     def get(self):
-        self.render_resource('/web/index.html')
+        with open(path.join('/var/imarker/web/index.html'), 'rb') as f:
+            self.set_header('Content-type', 'text/html')
+            self.write(f.read())
 
 
 class Upload(tornado.web.RequestHandler):
@@ -80,8 +53,10 @@ class Sample(tornado.web.RequestHandler):
         self.write('1')
 
 
-application = tornado.web.Application([
-    (r'/', LandingPage),
-    (r'/(js|css|img)/(.+)', PkgResources),
-    (r'/file-upload', Upload),
-], debug=True)
+application = tornado.web.Application(
+    handlers=[
+        (r'/', LandingPage),
+        (r'/file-upload', Upload),
+    ],
+    static_path='/var/imarker/web/',
+    debug=True)

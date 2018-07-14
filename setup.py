@@ -13,13 +13,8 @@ setup(
     author_email='olegsivokon@gmail.com',
     url='TBD',
     license='MIT',
-    scripts=[
-        'bin/imarker',
-        'bin/imarker-gui',
-        'bin/imarker-csv',
-    ],
     package_data={
-        'image_marker/web': [
+        '/var/imarker/web': [
             'web/*.html',
             'web/*.js',
             'web/*/*.js',
@@ -30,10 +25,11 @@ setup(
         ],
     },
     data_files=[
-        ('image_marker/web', [
+        ('/opt/conda/bin', ['bin/imarker']),
+        ('/var/imarker/web', [
             'web/index.html',
         ]),
-        ('image_marker/web/js', [
+        ('/var/imarker/web/js', [
             'web/js/bootstrap.bundle.min.js',
             'web/js/bootstrap.bundle.min.js.map',
             'web/js/jquery-3.3.1.min.js',
@@ -41,11 +37,11 @@ setup(
             'web/js/dropzone.js',
             'web/js/tagger.js',
         ]),
-        ('image_marker/web/css', [
+        ('/var/imarker/web/css', [
             'web/css/bootstrap.min.css',
             'web/css/bootstrap.min.css.map',
         ]),
-        ('image_marker/web/img', [
+        ('/var/imarker/web/img', [
             'web/img/t1.png',
         ])
     ],
@@ -55,12 +51,12 @@ setup(
         'Pillow >= 5.1.0',
         'scipy >= 1.1.0',
         'scikit-image >= 0.14.0',
-        'pywebview >= 2.0.3',
-        'pywebview[qt5];platform_system=="Linux"',
-        'pywebview[winforms];platform_system=="Windows"',
-        'pywebview[cocoa];platform_system=="Darwin"',
-        'vext >= 0.7.0',
-        'vext.gi >= 0.7.0',
+        # 'pywebview >= 2.0.3',
+        # 'pywebview[qt5];platform_system=="Linux"',
+        # 'pywebview[winforms];platform_system=="Windows"',
+        # 'pywebview[cocoa];platform_system=="Darwin"',
+        # 'vext >= 0.7.0',
+        # 'vext.gi >= 0.7.0',
         'sqlalchemy >= 1.2.8',
         'tornado >= 5.0.2',
     ],

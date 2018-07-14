@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.6
+#!/opt/conda/bin/python
 # -*- mode: python; coding: utf-8 -*-
 
 import logging
