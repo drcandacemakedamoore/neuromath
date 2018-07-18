@@ -1,6 +1,8 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
 
+from sys import prefix
+from os import path
 from setuptools import setup
 
 
@@ -14,7 +16,7 @@ setup(
     url='TBD',
     license='MIT',
     package_data={
-        '/var/imarker/web': [
+        path.join(prefix, 'var/imarker/web'): [
             'web/*.html',
             'web/*.js',
             'web/*/*.js',
@@ -25,11 +27,11 @@ setup(
         ],
     },
     data_files=[
-        ('/opt/conda/bin', ['bin/imarker']),
-        ('/var/imarker/web', [
+        (path.join(prefix, 'bin'), ['bin/imarker']),
+        (path.join(prefix, 'var/imarker/web'), [
             'web/index.html',
         ]),
-        ('/var/imarker/web/js', [
+        (path.join(prefix, 'var/imarker/web/js'), [
             'web/js/bootstrap.bundle.min.js',
             'web/js/bootstrap.bundle.min.js.map',
             'web/js/jquery-3.3.1.min.js',
@@ -37,11 +39,11 @@ setup(
             'web/js/dropzone.js',
             'web/js/tagger.js',
         ]),
-        ('/var/imarker/web/css', [
+        (path.join(prefix, 'var/imarker/web/css'), [
             'web/css/bootstrap.min.css',
             'web/css/bootstrap.min.css.map',
         ]),
-        ('/var/imarker/web/img', [
+        (path.join(prefix, 'var/imarker/web/img'), [
             'web/img/t1.png',
         ])
     ],
@@ -51,14 +53,11 @@ setup(
         'Pillow >= 5.1.0',
         'scipy >= 1.1.0',
         'scikit-image >= 0.14.0',
-        # 'pywebview >= 2.0.3',
-        # 'pywebview[qt5];platform_system=="Linux"',
-        # 'pywebview[winforms];platform_system=="Windows"',
-        # 'pywebview[cocoa];platform_system=="Darwin"',
-        # 'vext >= 0.7.0',
-        # 'vext.gi >= 0.7.0',
         'sqlalchemy >= 1.2.8',
         'tornado >= 5.0.2',
+        'pydicom >= 1.1.0',
+        'pydicom-ext >= 0.4.7',
+        'pypng >= 0.0.18',
     ],
     tests_require=[
         'pytest >= 3.4.2',
