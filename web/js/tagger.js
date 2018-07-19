@@ -30,6 +30,8 @@ $(function () {
         s.click(swatchOnClick);
     });
 
+    var stats = $("#stats").DataTable({ data: [] });
+
     $("body").click(function (e) {
         var swatch = $("#swatch");
         if (swatch.length) {
@@ -47,6 +49,16 @@ $(function () {
         }
         $("#swatch").remove();
         $("body").css({cursor: "auto"});
+        stats.row.add([
+            0.5,                // dissimilarity
+            0.3,                // correlation
+            0.1,                // std
+            0.01,               // entropy
+            e.pageX - offset.left,
+            e.pageY - offset.top,
+            swatch.width(),
+            swatch.height()
+        ]).draw(false);
     });
 
     $("body").mousemove(function (e) {

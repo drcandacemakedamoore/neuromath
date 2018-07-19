@@ -37,11 +37,14 @@ setup(
             'web/js/jquery-3.3.1.min.js',
             'web/js/svg.min.js',
             'web/js/dropzone.js',
+            'web/js/datatables.min.js',
+            'web/js/jquery.dataTables.min.js',
             'web/js/tagger.js',
         ]),
         (path.join(prefix, 'var/imarker/web/css'), [
             'web/css/bootstrap.min.css',
             'web/css/bootstrap.min.css.map',
+            'web/css/datatables.min.css',
         ]),
         (path.join(prefix, 'var/imarker/web/img'), [
             'web/img/t1.png',
