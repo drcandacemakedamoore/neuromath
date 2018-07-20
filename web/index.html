@@ -13,91 +13,95 @@
       .bowel { background-color: #963d97 }
       .swatch { position: absolute; left: 0; top: 0; width: 13px; height: 13px }
 
+      td, th { text-align: left; }
+
       /* DataTable-related stuff, see: https://github.com/wet-boew/wet-boew/issues/6093 */
-      /*smaller size filter text box*/
+      /* smaller size filter text box */
       .dataTables_filter > label > input {
-          line-height:normal !important;
+          line-height: normal !important;
       }
 
-      /*entry length text size changed*/
+      /* entry length text size changed */
       .dataTables_length > label {
-          font-weight:normal !important;
-          font-size:12px !important; 
+          font-weight: normal !important;
+          font-size: 12px !important; 
       }
-      /*filter label text size changed*/
+
+      /* filter label text size changed */
       .dataTables_filter > label {
-          font-weight:normal !important;
-          font-size:13px !important; 
+          font-weight: normal !important;
+          font-size: 13px !important; 
       }
-      /*table header size changed*/
+
+      /* table header size changed */
       .wb-tables > thead > tr > th {
-          font-weight:600 !important;
-          font-size:11px !important; 
-          padding:5px !important;
+          font-weight: 600 !important;
+          font-size: 11px !important; 
+          padding: 5px !important;
       }
 
       .paginate_button, .dataTables_info {
           font-size:11px !important;
       }
 
-      /*table data size changed*/
+      /* table data size changed */
       .wb-tables > tbody > tr > td {
-          padding:2px !important;
+          padding: 2px 2px 2px 5px !important;
           font-size: 11px !important;
       }
 
-      /*table paging size changed*/
+      /* table paging size changed */
       .dataTables_paginate > span > a {
           margin-bottom: 0px !important;
           padding: 2px 10px !important;
       }
-      /*table paging size changed*/
+      /* table paging size changed */
       .dataTables_paginate > a {
           margin-bottom: 0px !important;
           padding: 2px 10px !important;
       }
 
-      /*table paging float right*/
+      /* table paging float right */
       .dataTables_paginate {
-          text-align:right !important;
+          text-align: right !important;
           margin-top: -10px !important;
       }
 
-      /*fixed sorting arrow 'after'*/
+      /* fixed sorting arrow 'after' */
       table.dataTable thead .sorting-icons:after {
           content: "\e114";
-          font-weight:lighter;
-          font-size:x-small;
-          display:list-item;
-          list-style:none;  
-          margin-left:-1px;
-          border:0px solid white !important;
-          padding:0 !important;
-          line-height:0.5em !important;
-          margin-top:0px !important;   
+          font-weight: lighter;
+          font-size: x-small;
+          display: list-item;
+          list-style: none;  
+          margin-left: -1px;
+          border: 0px solid white !important;
+          padding: 0 !important;
+          line-height: 0.5em !important;
+          margin-top: 0px !important;   
           background: none !important;
       }
-      /*fixed sorting arrow 'before'*/      
+      /* fixed sorting arrow 'before' */
       table.dataTable thead .sorting-icons:before {
           content: "\e113";
-          font-weight:lighter;
-          font-size:x-small;
-          display:list-item;
-          list-style:none;
-          margin-left:-0.4px;
-          border:0px solid white !important;
-          padding :0 !important;
+          font-weight: lighter;
+          font-size: x-small;
+          display: list-item;
+          list-style: none;
+          margin-left: -0.4px;
+          border: 0px solid white !important;
+          padding: 0 !important;
 
-          line-height :0.5em !important;
-          margin-top :0px !important;
+          line-height: 0.5em !important;
+          margin-top: 0px !important;
           background: none !important;
       }
 
-      /*fixed sorting arrows position*/     
+      /* fixed sorting arrows position */
       .sorting-cnt {
-          float:right;
+          float: right;
           margin-right: 10px;
-          display:block;
+          display: block;
       }
     </style>
   </head>
@@ -168,15 +172,39 @@
             <div class="col-sm-6">
               <div class="centered">
                 <svg id="mri-image"
-                     width=512
-                     height=512
+                     width="512"
+                     height="512"
                      xmlns="http://www.w3.org/2000/svg" 
                      xmlns:xlink="http://www.w3.org/1999/xlink"
                      xmlns:data="data">
+                  <style>
+                    .message {
+                        fill: #cacaca;
+                        font-size: 32px;
+                        font-weight: bold;
+                    }
+                  </style>
+                  <defs>
+                    <pattern id="grid" width="0.0625" height="0.0625">
+                      <rect x="0" y="0" width="32" height="32" fill="#fafafa"/>
+                      <rect x="0" y="0" width="0.5" height="32" fill="#cacaca"/>
+                      <rect x="0" y="0" width="32" height="0.5" fill="#cacaca"/>
+                      <rect x="31.5" y="0" width="0.5" height="32" fill="#cacaca"/>
+                      <rect x="0" y="31.5" width="32" height="0.5" fill="#cacaca"/>
+                    </pattern>
+                  </defs>
+                  <rect fill="url(#grid)" x="0" y="0" width="512" height="512"/>
+                  <text
+                    x="256"
+                    y="256"
+                    class="message"
+                    text-anchor="middle">
+                    Select an image to tag
+                  </text>
                   <image xlink:href="/static/img/t1.png"
                          id="sample-image"
-                         height="512"
-                         width="512"/>
+                         preserveAspectRatio="xMidYMid meet"
+                         />
                   <g id="swatches"></g>
                 </svg>
               </div>
@@ -186,6 +214,7 @@
                 <table id="stats" class="wb-tables">
                   <thead>
                     <tr>
+                      <th>Section</th>
                       <th>Dissimilarity</th>
                       <th>Correlation</th>
                       <th>STD</th>
@@ -284,7 +313,7 @@
       <section class="jumbotron text-center">
         <form action="/file-upload"
               class="dropzone"
-              id="my-awesome-dropzone"></form>
+              id="dicom-uploads"></form>
       </section>
 
       <div class="album py-5 bg-light">

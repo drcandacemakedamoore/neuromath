@@ -1,3 +1,5 @@
+Dropzone.autoDiscover = false;
+
 $(function () {
     $("[data-toggle='tooltip']").tooltip();
 
@@ -30,8 +32,57 @@ $(function () {
         s.click(swatchOnClick);
     });
 
-    var stats = $("#stats").DataTable({ data: [] });
+    var stats = $("#stats").DataTable({
+        data: [],
+        createdRow: function (row, data, index) {
+            $("td", row).addClass(data[0]);
+        }
+    });
+    var uploads = new Dropzone("#dicom-uploads");
 
+    uploads.on("complete", function (response) {
+        console.log("complete response " + response.xhr.response);
+        var img = SVG.get("#sample-image");
+        img.load(JSON.parse(response.xhr.response)).loaded(function(loader) {
+            this.size(loader.width, loader.height);
+            var parent = this.parent();
+            this.move(
+                (parent.width() - loader.width) >> 1,
+                (parent.height() - loader.height) >> 1
+            );
+        });
+    });
+
+    function imageTagSuccess(section, x, y, w, h, response) {
+        stats.row.add([
+            section,
+            response[0].toFixed(6),                // dissimilarity
+            response[1].toFixed(6),                // correlation
+            response[2].toFixed(6),                // std
+            response[3].toFixed(6),                // entropy
+            x,
+            y,
+            w,
+            h
+        ]).draw(false);
+    }
+
+    function addRow(section, x, y, swatch) {
+        var image = $("#sample-image")[0].href.baseVal;
+        var w = swatch.width();
+        var h = swatch.height();
+        $.ajax({
+            type: "POST",
+            url: "/sample/tag/" + image,
+            data: JSON.stringify({
+                area: [x, y, w, h]}),
+            success: function (response) {
+                return imageTagSuccess(section, x, y, w, h, response);
+            },
+            dataType: "json"
+        });
+    }
+    
     $("body").click(function (e) {
         var swatch = $("#swatch");
         if (swatch.length) {
@@ -39,26 +90,20 @@ $(function () {
             var tl = SVG.get("#swatches");
             var bgcolor = swatch.css('background-color');
             var offset = svgParent.offset();
-            tl.rect(13, 11).move(
-                e.pageX - offset.left,
-                e.pageY - offset.top
-            ).fill(bgcolor).click(function (e) {
+            var ioffset = $("#sample-image").offset();
+            var x = e.pageX - offset.left;
+            var y = e.pageY - offset.top;
+            var ix = e.pageX - ioffset.left;
+            var iy = e.pageY - ioffset.top;
+            var section = swatch.attr("data-sample");
+            tl.rect(13, 11).move(x, y).fill(bgcolor).click(function (e) {
                 e.stopPropagation();
                 this.remove();
-            }).attr("data:sample", swatch.attr("data-sample"));
+            }).attr("data:sample", section);
+            addRow(section, ix, iy, swatch);
         }
         $("#swatch").remove();
         $("body").css({cursor: "auto"});
-        stats.row.add([
-            0.5,                // dissimilarity
-            0.3,                // correlation
-            0.1,                // std
-            0.01,               // entropy
-            e.pageX - offset.left,
-            e.pageY - offset.top,
-            swatch.width(),
-            swatch.height()
-        ]).draw(false);
     });
 
     $("body").mousemove(function (e) {

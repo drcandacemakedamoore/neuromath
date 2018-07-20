@@ -42,8 +42,10 @@ class Extractor:
         )
         logging.info('processing image: {}'.format(pngdir))
         pathlib.Path(pngdir).mkdir(parents=True, exist_ok=True)
-        with open(path.join(pngdir, 'sample.png'), 'wb') as f:
+        target = path.join(pngdir, 'sample.png')
+        with open(target, 'wb') as f:
             w.write(f, image_2d_scaled)
+        return target
 
 
 class Marker:
@@ -64,8 +66,8 @@ class Marker:
         self.area = area
         self.target_dir = target_dir
 
-    def extract_patch(self, image_path, location, size):
-        im = misc.imread(image_path, flatten=True)
+    def extract_patch(self, location, size):
+        im = misc.imread(self.image, flatten=True)
         x, y = location
         width, height = size
         return im[y:y+height, x:x+width]
@@ -82,7 +84,7 @@ class Marker:
         out = Image.alpha_composite(im.convert('RGBA'), graphics)
         return np.asarray(out)
 
-    def texture_stats(patch):
+    def texture_stats(self, patch):
         glcm = greycomatrix(
             patch.astype('int'),
             [3],
@@ -101,7 +103,7 @@ class Marker:
         dir, file = path.split(self.image)
         im = misc.imread(self.image, flatten=True)
         im = self.mark_area(im, self.area[:2], self.area[2:])
-        patch = self.extract_patch(self.image, self.area[:2], self.area[2:])
+        patch = self.extract_patch(self.area[:2], self.area[2:])
         stats = None
         try:
             stats = self.texture_stats(patch)
