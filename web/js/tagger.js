@@ -18,12 +18,9 @@ $(function () {
     function $$ (x) { return $(x); }
 
     var swatches = [
-        "#lesion-one",
-        "#lesion-two",
-        "#liver-one",
-        "#liver-two",
-        "#soft-tissue-one",
-        "#soft-tissue-two",
+        "#lesion",
+        "#liver",
+        "#soft-tissue",
         "#spleen",
         "#bowel"
     ].map($$);
