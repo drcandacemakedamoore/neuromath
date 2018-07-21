@@ -29,7 +29,8 @@ setup(
     data_files=[
         (path.join(prefix, 'bin'), ['bin/imarker']),
         (path.join(prefix, 'var/imarker/web'), [
-            'web/index.html',
+            'web/index.html', 
+            'web/belinsonbeelogo.jpg',
         ]),
         (path.join(prefix, 'var/imarker/web/js'), [
             'web/js/bootstrap.bundle.min.js',
