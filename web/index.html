@@ -11,6 +11,9 @@
       .soft-tissue { background-color: #f5821f }
       .spleen { background-color: #e03a3e }
       .bowel { background-color: #963d97 }
+      .lung { background-color: #3d7a97 }
+      .bone { background-color: #3e3d97 }
+      .fat { background-color: #ee1f98 }
       .swatch { position: absolute; left: 0; top: 0; width: 13px; height: 13px }
 
       td, th { text-align: left; }
@@ -105,7 +108,6 @@
       }
     </style>
   </head>
-  <a><img src="/static/belinsonbeelogo.jpg" alt="Belinson Bee" style="width:50px;height:50px;"></a>
   <body>
     <header>
       <div class="collapse bg-dark" id="navbarHeader">
@@ -146,6 +148,8 @@
               <circle cx="12" cy="13" r="4"></circle>
             </svg>
             <strong>Belinson Bee Image Marker</strong>
+  <a><img src="/static/belinsonbeelogo.jpg" alt="Belinson Bee" style="width:50px;height:50px;"></a>
+
           </a>
           <button class="navbar-toggler" type="button"
                   data-toggle="collapse"
@@ -250,6 +254,30 @@
                     data-placement="top"
                     title="Liver Area">
               Liver 
+            </button>
+            <button id="bone"
+                    type="button"
+                    class="btn btn-secondary bone"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Bone Area">
+              Bone
+            </button>
+            <button id="fat"
+                    type="button"
+                    class="btn btn-secondary fat"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Fat Area">
+              Fat
+            </button>
+            <button id="lung"
+                    type="button"
+                    class="btn btn-secondary lung"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Lung Area">
+              Lung
             </button>
             
             <button id="soft-tissue"

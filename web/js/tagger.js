@@ -22,7 +22,10 @@ $(function () {
         "#liver",
         "#soft-tissue",
         "#spleen",
-        "#bowel"
+        "#bowel",
+        '#lung',
+        '#bone',
+        '#fat'
     ].map($$);
 
     swatches.forEach(function (s) {

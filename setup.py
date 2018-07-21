@@ -5,6 +5,7 @@ from sys import prefix
 from os import path
 from setuptools import setup
 
+print (path.join(prefix, 'var/imarker/web/js'))
 
 setup(
     packages=['image_marker'],
