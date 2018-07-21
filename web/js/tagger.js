@@ -60,10 +60,10 @@ $(function () {
             response[1].toFixed(6),                // correlation
             response[2].toFixed(6),                // std
             response[3].toFixed(6),                // entropy
-            x,
-            y,
-            w,
-            h
+            x | 0,
+            y | 0,
+            w*h
+            
         ]).draw(false);
     }
 
