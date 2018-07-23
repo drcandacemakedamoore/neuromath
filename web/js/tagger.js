@@ -35,10 +35,11 @@ $(function () {
     var stats = $("#stats").DataTable({
         data: [],
         createdRow: function (row, data, index) {
-            $("td", row).addClass(data[0]);
+            $("td", row).addClass(data[1]);
         }
     });
     var uploads = new Dropzone("#dicom-uploads");
+    var tagCounter = 1;
 
     uploads.on("complete", function (response) {
         console.log("complete response " + response.xhr.response);
@@ -55,16 +56,16 @@ $(function () {
 
     function imageTagSuccess(section, x, y, w, h, response) {
         stats.row.add([
+            tagCounter,
             section,
             response[0].toFixed(6),                // dissimilarity
             response[1].toFixed(6),                // correlation
             response[2].toFixed(6),                // std
             response[3].toFixed(6),                // entropy
             x | 0,
-            y | 0,
-            w*h
-            
+            y | 0
         ]).draw(false);
+        tagCounter++;
     }
 
     function addRow(section, x, y, swatch) {
@@ -96,9 +97,15 @@ $(function () {
             var ix = e.pageX - ioffset.left;
             var iy = e.pageY - ioffset.top;
             var section = swatch.attr("data-sample");
+            var label = tl.text("" + tagCounter).move(x + 15, y).fill(bgcolor);
             tl.rect(13, 11).move(x, y).fill(bgcolor).click(function (e) {
                 e.stopPropagation();
+                var t = +label.text();
                 this.remove();
+                label.remove();
+                stats.row(function (i, data, node) {
+                    return t == data[0];
+                }).remove().draw(false);
             }).attr("data:sample", section);
             addRow(section, ix, iy, swatch);
         }
