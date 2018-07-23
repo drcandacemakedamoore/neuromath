@@ -98,65 +98,65 @@ class Marker:
         hist = np.histogram(patch, bins='fd')
         distribution = stats.rv_histogram(hist)
         return patch.std(), distribution.entropy(), dissimilarity, correlation
-##################################################################################
-# "Calculate texture properties of a GLCM.
 
- #   Compute a feature of a grey level co-occurrence matrix to serve as
-  #  a compact summary of the matrix. The properties are computed as
-   # follows:
+###############################################################################
+# Calculate texture properties of a GLCM.
 #
- #   - 'contrast': :math:`\\sum_{i,j=0}^{levels-1} P_{i,j}(i-j)^2`
-  #  - 'dissimilarity': :math:`\\sum_{i,j=0}^{levels-1}P_{i,j}|i-j|`
-   # - 'homogeneity': :math:`\\sum_{i,j=0}^{levels-1}\\frac{P_{i,j}}{1+(i-j)^2}`
-    #- 'ASM': :math:`\\sum_{i,j=0}^{levels-1} P_{i,j}^2`
-    # 'energy': :math:`\\sqrt{ASM}`
-    #- 'correlation':
-     #   .. math:: \\sum_{i,j=0}^{levels-1} P_{i,j}\\left[\\frac{(i-\\mu_i) \\
-        #          (j-\\mu_j)}{\\sqrt{(\\sigma_i^2)(\\sigma_j^2)}}\\right]
-
-
-  #  Parameters
-  #  ----------
-  #  P : ndarray
-  #      Input array. `P` is the grey-level co-occurrence histogram
-  #      for which to compute the specified property. The value
-  #      `P[i,j,d,theta]` is the number of times that grey-level j
-  #      occurs at a distance d and at an angle theta from
-  #      grey-level i.
-  #  prop : {'contrast', 'dissimilarity', 'homogeneity', 'energy', \
-  #          'correlation', 'ASM'}, optional
-  #      The property of the GLCM to compute. The default is 'contrast'.
-
-   # Returns
-    #-------
-   # results : 2-D ndarray
-   #     2-dimensional array. `results[d, a]` is the property 'prop' for
-   #     the d'th distance and the a'th angle.
-
-    #References
-    #----------
-    #.. [1] The GLCM Tutorial Home Page,
-    #       http://www.fp.ucalgary.ca/mhallbey/tutorial.htm
-
-    #Examples
-    #--------
-    #Compute the contrast for GLCMs with distances [1, 2] and angles
-   # [0 degrees, 90 degrees]
-
-    #>>> image = np.array([[0, 0, 1, 1],
-  #  ...                   [0, 0, 1, 1],
-   # ...                   [0, 2, 2, 2],
-   # ...                   [2, 2, 3, 3]], dtype=np.uint8)
-   # >>> g = greycomatrix(image, [1, 2], [0, np.pi/2], levels=4,
-   # ...                  normed=True, symmetric=True)
-   # >>> contrast = greycoprops(g, 'contrast')
-   # >>> contrast
-   # array([[ 0.58333333,  1.        ],
- #          [ 1.25      ,  2.75      ]])
-
-#    """
+#   Compute a feature of a grey level co-occurrence matrix to serve as
+#   a compact summary of the matrix. The properties are computed as
+#   follows:
 #
-######################################################################
+#   - 'contrast': :math:`\\sum_{i,j=0}^{levels-1} P_{i,j}(i-j)^2`
+#   - 'dissimilarity': :math:`\\sum_{i,j=0}^{levels-1}P_{i,j}|i-j|`
+#   - 'homogeneity': :math:`\\sum_{i,j=0}^{levels-1}\\frac{P_{i,j}}{1+(i-j)^2}`
+#   - 'ASM': :math:`\\sum_{i,j=0}^{levels-1} P_{i,j}^2`
+#    'energy': :math:`\\sqrt{ASM}`
+#   - 'correlation':
+#       .. math:: \\sum_{i,j=0}^{levels-1} P_{i,j}\\left[\\frac{(i-\\mu_i) \\
+#                 (j-\\mu_j)}{\\sqrt{(\\sigma_i^2)(\\sigma_j^2)}}\\right]
+#
+#
+#  Parameters
+#  ----------
+#   P : ndarray
+#       Input array. `P` is the grey-level co-occurrence histogram
+#       for which to compute the specified property. The value
+#       `P[i,j,d,theta]` is the number of times that grey-level j
+#       occurs at a distance d and at an angle theta from
+#       grey-level i.
+#   prop : {'contrast', 'dissimilarity', 'homogeneity', 'energy', \
+#           'correlation', 'ASM'}, optional
+#       The property of the GLCM to compute. The default is 'contrast'.
+#
+#   Returns
+#   -------
+#   results : 2-D ndarray
+#       2-dimensional array. `results[d, a]` is the property 'prop' for
+#       the d'th distance and the a'th angle.
+#
+#   References
+#   ----------
+#   .. [1] The GLCM Tutorial Home Page,
+#          http://www.fp.ucalgary.ca/mhallbey/tutorial.htm
+#
+#   Examples
+#   --------
+#   Compute the contrast for GLCMs with distances [1, 2] and angles
+#   [0 degrees, 90 degrees]
+#
+#   >>> image = np.array([[0, 0, 1, 1],
+#   ...                   [0, 0, 1, 1],
+#   ...                   [0, 2, 2, 2],
+#   ...                   [2, 2, 3, 3]], dtype=np.uint8)
+#   >>> g = greycomatrix(image, [1, 2], [0, np.pi/2], levels=4,
+#   ...                  normed=True, symmetric=True)
+#   >>> contrast = greycoprops(g, 'contrast')
+#   >>> contrast
+#   array([[ 0.58333333,  1.        ],
+#          [ 1.25      ,  2.75      ]])
+#
+###############################################################################
+
     def mark(self):
         dir, file = path.split(self.image)
         im = misc.imread(self.image, flatten=True)
