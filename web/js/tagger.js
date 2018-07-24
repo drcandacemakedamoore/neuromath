@@ -20,7 +20,9 @@ $(function () {
     var swatches = [
         "#lesion",
         "#liver",
-        "#soft-tissue",
+        "#psoas-muscle",
+        "#other-muscle",
+        "#kidney",
         "#spleen",
         "#bowel",
         '#lung',
