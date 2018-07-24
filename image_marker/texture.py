@@ -12,26 +12,21 @@ from os import path
 from PIL import Image, ImageDraw
 from scipy import misc, stats
 from skimage.feature import greycomatrix, greycoprops
+from collections import defaultdict
+from shutil import copyfile
 
 
 class Extractor:
 
     def __init__(self, root):
         self.root = root
+        self.handlers = defaultdict(lambda: self.extract_dicom)
+        self.handlers['.bmp'] = self.extract_bmp
+        self.handlers['.jpg'] = self.extract_jpeg
+        self.handlers['.jpeg'] = self.extract_jpeg
+        self.handlers['.png'] = self.extract_png
 
-    def extract(self, raw):
-        ds = pydicom.dcmread(raw)
-        tag = (
-            ds.AcquisitionNumber,
-            ds[(0x2001, 0x100a)].value,
-            ds[(0x0008, 0x0013)].value,
-        )
-        # im = Image.fromarray(ds.pixel_array)
-        shape = ds.pixel_array.shape
-        image_2d = ds.pixel_array.astype(float)
-        image_2d_scaled = (np.maximum(image_2d, 0) / image_2d.max()) * 255.0
-        image_2d_scaled = np.uint8(image_2d_scaled)
-        w = png.Writer(shape[1], shape[0], greyscale=True)
+    def dst_path(self, raw, tag):
         now = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         pngdir = path.join(
             path.dirname(raw),
@@ -42,7 +37,50 @@ class Extractor:
         )
         logging.info('processing image: {}'.format(pngdir))
         pathlib.Path(pngdir).mkdir(parents=True, exist_ok=True)
-        target = path.join(pngdir, 'sample.png')
+        return path.join(pngdir, 'sample.png')
+
+    def extract(self, raw):
+        ext = path.splitext(raw)[1]
+        handler = self.handlers[ext.lower()]
+        return handler(raw)
+
+    def extract_png(self, raw):
+        target = self.dst_path(raw, [])
+        copyfile(raw, target)
+        return target
+
+    def extract_bmp(self, raw):
+        im = misc.imread(raw, flatten=True)
+        w = png.Writer(im.shape[1], im.shape[0], greyscale=True)
+        target = self.dst_path(raw, [])
+
+        with open(target, 'wb') as f:
+            w.write(f, im)
+        return target
+
+    def extract_jpeg(self, raw):
+        im = misc.imread(raw, flatten=True)
+        w = png.Writer(im.shape[1], im.shape[0], greyscale=True)
+        target = self.dst_path(raw, [])
+
+        with open(target, 'wb') as f:
+            w.write(f, im)
+        return target
+
+    def extract_dicom(self, raw):
+        ds = pydicom.dcmread(raw)
+        tag = (
+            ds.AcquisitionNumber,
+            ds[(0x2001, 0x100a)].value,
+            ds[(0x0008, 0x0013)].value,
+        )
+        shape = ds.pixel_array.shape
+        image_2d = ds.pixel_array.astype(float)
+        image_2d_scaled = (np.maximum(image_2d, 0) / image_2d.max()) * 255.0
+        image_2d_scaled = np.uint8(image_2d_scaled)
+        w = png.Writer(shape[1], shape[0], greyscale=True)
+        target = self.dst_path(raw, tag)
+
         with open(target, 'wb') as f:
             w.write(f, image_2d_scaled)
         return target
