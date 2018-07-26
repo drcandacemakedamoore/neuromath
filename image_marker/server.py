@@ -3,7 +3,7 @@ import logging
 import json
 import pathlib
 
-from os import path
+from os import path, scandir
 from sys import prefix
 from glob import glob
 
@@ -77,6 +77,26 @@ class Sample(tornado.web.RequestHandler):
 
 class Images(tornado.web.RequestHandler):
 
+    def list_subdirectories(self, subdir, id):
+        top = path.basename(subdir)
+        children = []
+        result = {
+            'text': top,
+            'children': children,
+            'id': id[0],
+        }
+        for entry in scandir(subdir):
+            id[0] = id[0] + 1
+            if entry.is_dir():
+                children.append(self.list_subdirectories(entry.path, id))
+            else:
+                children.append({
+                    'text': entry.name,
+                    'id': id[0],
+                    'icon': 'jstree-file',
+                })
+        return result
+
     def get(self):
         cmd = self.request.path.split('/')[2]
         logging.info('images command: {}'.format(cmd))
@@ -86,6 +106,12 @@ class Images(tornado.web.RequestHandler):
             found = glob(samples + '/**/*.png', recursive=True)
             found = [f[len(samples) + 1:] for f in found]
             self.write(json.dumps(found))
+        elif cmd == 'tree':
+            samples = path.join(prefix, 'var/imarker/web/uploads/samples')
+            id = [0]
+            result = self.list_subdirectories(samples, id)
+            result['state'] = {'opened': True}
+            self.write(json.dumps([result]))
 
 
 application = tornado.web.Application(

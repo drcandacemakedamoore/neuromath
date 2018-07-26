@@ -24,13 +24,15 @@ setup(
             'web/*/*.js.map',
             'web/css/*.css',
             'web/css/*.css.map',
+            'web/css/*.png',
+            'web/css/*.gif',
             'web/img/*.png',
         ],
     },
     data_files=[
         (path.join(prefix, 'bin'), ['bin/imarker']),
         (path.join(prefix, 'var/imarker/web'), [
-            'web/index.html', 
+            'web/index.html',
             'web/belinsonbeelogo.jpg',
         ]),
         (path.join(prefix, 'var/imarker/web/js'), [
@@ -41,12 +43,16 @@ setup(
             'web/js/dropzone.js',
             'web/js/datatables.min.js',
             'web/js/jquery.dataTables.min.js',
+            'web/js/jstree.min.js',
             'web/js/tagger.js',
         ]),
         (path.join(prefix, 'var/imarker/web/css'), [
             'web/css/bootstrap.min.css',
             'web/css/bootstrap.min.css.map',
             'web/css/datatables.min.css',
+            'web/css/jstree.min.css',
+            'web/css/32px.png',
+            'web/css/throbber.gif',
         ]),
         (path.join(prefix, 'var/imarker/web/img'), [
             'web/img/t1.png',

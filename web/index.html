@@ -5,6 +5,7 @@
     <title>Debora Image Marker</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/jstree.min.css"/>
     <style>
       .liver { background-color: #61bb46 }
       .lesion { background-color: #fdb827 }
@@ -344,20 +345,7 @@
 
       <div class="album py-5 bg-light">
         <div class="container">
-          <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              First patient images
-              <span class="badge badge-primary badge-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Second patient images
-              <span class="badge badge-primary badge-pill">2</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Third patient images
-              <span class="badge badge-primary badge-pill">1</span>
-            </li>
-          </ul>
+          <div id="file-tree"></div>
         </div>
       </div>
 
@@ -378,6 +366,7 @@
     <script src="/static/js/dropzone.js"></script>
     <script src="/static/js/datatables.min.js"></script>
     <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/jstree.min.js"></script>
     <script src="/static/js/tagger.js"></script>
 
   </body>

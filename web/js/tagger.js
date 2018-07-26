@@ -43,10 +43,9 @@ $(function () {
     var uploads = new Dropzone("#dicom-uploads");
     var tagCounter = 1;
 
-    uploads.on("complete", function (response) {
-        console.log("complete response " + response.xhr.response);
+    function updateImage(url) {
         var img = SVG.get("#sample-image");
-        img.load(JSON.parse(response.xhr.response)).loaded(function(loader) {
+        img.load(url).loaded(function(loader) {
             this.size(loader.width, loader.height);
             var parent = this.parent();
             this.move(
@@ -54,6 +53,11 @@ $(function () {
                 (parent.height() - loader.height) >> 1
             );
         });
+    }
+
+    uploads.on("complete", function (response) {
+        console.log("complete response " + response.xhr.response);
+        updateImage(JSON.parse(response.xhr.response));
     });
 
     function imageTagSuccess(section, x, y, w, h, response) {
@@ -149,5 +153,23 @@ $(function () {
                 dataType: "json"
             });
         });
+    });
+
+    var images = $("#file-tree");
+    images.jstree({
+        core: {
+            data: {
+                url: "/images/tree",
+                dataType: "json"
+            }
+        }
+    });
+    images.on("select_node.jstree", function (e, data) {
+        var parents = data.node.parents;
+        var pnames = [data.node.text];
+        for (var i = 0; i < parents.length; i++) {
+            pnames.unshift(data.instance.get_node(parents[i]).text);
+        }
+        updateImage("static/uploads" + pnames.join("/"));
     });
 });
