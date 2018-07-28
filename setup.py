@@ -33,6 +33,7 @@ setup(
         (path.join(prefix, 'bin'), ['bin/imarker']),
         (path.join(prefix, 'var/imarker/web'), [
             'web/index.html',
+            'web/otherlanguages.html',
             'web/belinsonbeelogo.jpg',
         ]),
         (path.join(prefix, 'var/imarker/web/js'), [
