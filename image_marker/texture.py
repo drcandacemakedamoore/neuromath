@@ -45,8 +45,19 @@ class Extractor:
         return handler(raw)
 
     def extract_png(self, raw):
+        # We cannot simply copy PNGs because they may use different
+        # pallete (we need them to be grayscale), and different number
+        # of channels (we need one, but it could be three or four).
+
+        # target = self.dst_path(raw, [])
+        # copyfile(raw, target)
+        # return target
+        im = misc.imread(raw, flatten=True)
+        w = png.Writer(im.shape[1], im.shape[0], greyscale=True)
         target = self.dst_path(raw, [])
-        copyfile(raw, target)
+
+        with open(target, 'wb') as f:
+            w.write(f, im)
         return target
 
     def extract_bmp(self, raw):
