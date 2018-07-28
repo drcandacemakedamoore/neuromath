@@ -36,6 +36,10 @@ $(function () {
 
     var stats = $("#stats").DataTable({
         data: [],
+        buttons: [
+            "copy", "csv", "excel", "pdf", "print"
+        ],
+        dom: "Bfrtip",
         createdRow: function (row, data, index) {
             $("td", row).addClass(data[1]);
         }
