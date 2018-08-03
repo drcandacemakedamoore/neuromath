@@ -34,10 +34,28 @@ $(function () {
         s.click(swatchOnClick);
     });
 
+    function genTitle() {
+        var chunks = SVG.get("#sample-image").src.split("/");
+        return chunks.slice(3, chunks.length - 1).join(".");
+    }
+
     var stats = $("#stats").DataTable({
         data: [],
         buttons: [
-            "copy", "csv", "excel", "pdf", "print"
+            "copy",
+            {
+                extend: "csv",
+                title: genTitle,
+            },
+            {
+                extend: "excel",
+                title: genTitle,
+            },
+            {
+                extend: "pdf",
+                title: genTitle,
+            },
+            "print"
         ],
         dom: "Bfrtip",
         createdRow: function (row, data, index) {
@@ -92,6 +110,14 @@ $(function () {
             },
             dataType: "json"
         });
+    }
+
+    function resetTable() {
+        stats.rows().remove().draw(false);
+    }
+
+    function resetSwatches() {
+        SVG.get("#swatches").clear();
     }
     
     $("body").click(function (e) {
@@ -175,5 +201,7 @@ $(function () {
             pnames.unshift(data.instance.get_node(parents[i]).text);
         }
         updateImage("static/uploads" + pnames.join("/"));
+        resetTable();
+        resetSwatches();
     });
 });
