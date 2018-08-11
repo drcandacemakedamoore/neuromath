@@ -27,6 +27,7 @@ $(function () {
         "#bowel",
         '#lung',
         '#bone',
+        '#other-r-o-i',
         '#fat'
     ].map($$);
 
