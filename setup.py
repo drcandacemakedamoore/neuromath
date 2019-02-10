@@ -35,6 +35,12 @@ setup(
             'web/index.html',
             'web/otherlanguages.html',
             'web/belinsonbeelogo.jpg',
+            'web/abdoindex.html',
+            'web/brainindex.html',
+            'web/headandneckindex.html',
+            'web/mskindex.html',
+            'web/thoraxindex.html',
+            'web/freelabel.html',
         ]),
         (path.join(prefix, 'var/imarker/web/js'), [
             'web/js/bootstrap.bundle.min.js',
