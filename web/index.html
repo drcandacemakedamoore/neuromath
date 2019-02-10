@@ -175,53 +175,7 @@
 
     <main role="main">
 
-      <section class="jumbotron text-center">
-        <div class="container">
-          <h1 class="jumbotron-heading" id="current-image-title">Current Image</h1>
-          <p class="lead text-muted">
-            Select a type of imaging you would like to label. If you wish to label parts not listedm then select Free labeling, and either updatethe code or keep notes.
-          </p>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="centered">
-                <svg id="mri-image"
-                     width="512"
-                     height="512"
-                     xmlns="http://www.w3.org/2000/svg" 
-                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                     xmlns:data="data">
-                  <style>
-                    .message {
-                        fill: #cacaca;
-                        font-size: 32px;
-                        font-weight: bold;
-                    }
-                  </style>
-                  <defs>
-                    <pattern id="grid" width="0.0625" height="0.0625">
-                      <rect x="0" y="0" width="32" height="32" fill="#fafafa"/>
-                      <rect x="0" y="0" width="0.5" height="32" fill="#cacaca"/>
-                      <rect x="0" y="0" width="32" height="0.5" fill="#cacaca"/>
-                      <rect x="31.5" y="0" width="0.5" height="32" fill="#cacaca"/>
-                      <rect x="0" y="31.5" width="32" height="0.5" fill="#cacaca"/>
-                    </pattern>
-                  </defs>
-                  <rect fill="url(#grid)" x="0" y="0" width="512" height="512"/>
-                  <text
-                    x="256"
-                    y="256"
-                    class="message"
-                    text-anchor="middle">
-                    Click Drop, Select an image
-                  </text>
-                  <image xlink:href="/static/img/bee.jpg"
-                         id="sample-image"
-                         preserveAspectRatio="xMidYMid meet"
-                         />
-                  <g id="swatches"></g>
-                </svg>
-              </div>
-            </div>
+     
             <div class="col-sm-6">
               <div class="centered">
                 <table id="stats" class="wb-tables">
@@ -261,45 +215,6 @@
             <a href="static/otherindex.html" class="text-black"> User Choice Imaging</a>
 
            
-            <button id="spleen"
-                    type="button"
-                    class="btn btn-secondary spleen"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Spleen">
-                    
-              Spleen
-            </button>
-            <button id="other-r-o-i"
-                    type="button"
-                    class="btn btn-secondary other-r-o-i"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Other-r-o-i">
-                    
-              Other-r-o-i
-            </button>
-            <button id="bowel"
-                    type="button"
-                    class="btn btn-secondary bowel"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Bowel">
-              Bowel
-            </button>
-          </div>
-        </div>
-        <div class="container">
-          <button id="submit"
-                  type="button"
-                  class="btn btn-default btn-block"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Submit">
-            Submit
-          </button>
-        </div>
-      </section>
 
       <section class="jumbotron text-center">
         <form action="/file-upload"
