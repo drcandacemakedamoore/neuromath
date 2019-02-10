@@ -128,8 +128,8 @@
               <h4 class="text-white">About</h4>
               <p class="text-muted"> This program, Voxelmath, is intended for marking images for texture analysis. It analizes exactly what you see on the screen (greyscale values from 0 to 255), and not Houndsfeld Units or other variables. <br/>
                 Put your images in a subdirectory of <pre>web/mriimages/</pre>
-                directory of this program, then refresh the page.<br/>
-                Now you should see the newly uploaded images in the links below.
+                directory of this program, after choosing the type of image labelling, then refresh the page.<br/>
+                
               </p>
             </div>
             <div class="col-sm-4 offset-md-1 py-4">
@@ -176,27 +176,7 @@
     <main role="main">
 
      
-            <div class="col-sm-6">
-              <div class="centered">
-                <table id="stats" class="wb-tables">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Section</th>
-                      <th>Dissimilarity</th>
-                      <th>Correlation</th>
-                      <th>STD</th>
-                      <th>Entropy</th>
-                      <th>X</th>
-                      <th>Y</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+            
           <div class="btn-group btn-group-sm" role="group" aria-label="...">
             
             <a href="static/abdoindex.html" class="text-black">Abdominal Imaging</a>
@@ -205,22 +185,23 @@
 
             </button>
             <a href="static/brainindex.html" class="text-black">Brain Imaging</a>
+            <br>
             
             <a href="static/headandneckindex.html" class="text-black">Head and Neck Imaging</a>
+            <br>
 
             <a href="static/thoraxindex.html" class="text-black">Thorax Imaging</a>
+            <br>
 
             <a href="static/mskindex.html" class="text-black">MSK Imaging</a>
+            <br>
 
             <a href="static/otherindex.html" class="text-black"> User Choice Imaging</a>
+            <br>
 
            
 
-      <section class="jumbotron text-center">
-        <form action="/file-upload"
-              class="dropzone"
-              id="dicom-uploads"></form>
-      </section>
+      
 
       <div class="album py-5 bg-light">
         <div class="container">
@@ -253,7 +234,7 @@
     <script src="/static/js/buttons.html5.min.js"></script>
     <script src="/static/js/buttons.print.min.js"></script>
     <script src="/static/js/jstree.min.js"></script>
-    <script src="/static/js/tagger.js"></script>
+    
 
   </body>
 </html>
