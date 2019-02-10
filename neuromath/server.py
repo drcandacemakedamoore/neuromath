@@ -15,9 +15,14 @@ from .storage import Markers
 from .texture import Extractor, Marker
 
 
+def project():
+    return __name__.split('.')[-2]
+
+
 class LandingPage(tornado.web.RequestHandler):
     def get(self):
-        with open(path.join(prefix, 'var/imarker/web/index.html'), 'rb') as f:
+        index = path.join(prefix, 'var/{}/web/index.html'.format(project()))
+        with open(index, 'rb') as f:
             self.set_header('Content-type', 'text/html')
             self.write(f.read())
 
@@ -29,7 +34,7 @@ class Upload(tornado.web.RequestHandler):
     def post(self):
         fileinfo = self.request.files['file'][0]
         fname = fileinfo['filename']
-        uploads = path.join(prefix, 'var/imarker/web/uploads')
+        uploads = path.join(prefix, 'var/{}/web/uploads'.format(project()))
         pathlib.Path(uploads).mkdir(parents=True, exist_ok=True)
         dst = path.join(uploads, fname)
 
@@ -59,7 +64,7 @@ class Sample(tornado.web.RequestHandler):
     def sample_image(self, args):
         data = json.loads(self.request.body)
         area = [int(x) for x in data['area']]
-        image = path.join(prefix, 'var/imarker/web/uploads', *(args[2:]))
+        image = path.join(prefix, 'var/{}/web/uploads'.format(project()), *(args[2:]))
         marker = Marker(image, area, None)
         patch = marker.extract_patch(area[:2], area[2:])
         stats = [float(x) for x in marker.texture_stats(patch)]
@@ -101,13 +106,13 @@ class Images(tornado.web.RequestHandler):
         cmd = self.request.path.split('/')[2]
         logging.info('images command: {}'.format(cmd))
         if cmd == 'list':
-            samples = path.join(prefix, 'var/imarker/web/uploads/samples')
+            samples = path.join(prefix, 'var/{}/web/uploads/samples'.format(project()))
             logging.info('looing for images in {}/**/*.png'.format(samples))
             found = glob(samples + '/**/*.png', recursive=True)
             found = [f[len(samples) + 1:] for f in found]
             self.write(json.dumps(found))
         elif cmd == 'tree':
-            samples = path.join(prefix, 'var/imarker/web/uploads/samples')
+            samples = path.join(prefix, 'var/{}/web/uploads/samples'.format(project()))
             id = [0]
             result = self.list_subdirectories(samples, id)
             result['state'] = {'opened': True}
@@ -121,5 +126,5 @@ application = tornado.web.Application(
         (r'/images/.*', Images),
         (r'/sample/.*', Sample),
     ],
-    static_path=path.join(prefix, 'var/imarker/web/'),
+    static_path=path.join(prefix, 'var/{}/web/'.format(project())),
     debug=True)

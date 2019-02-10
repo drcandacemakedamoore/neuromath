@@ -5,11 +5,13 @@ from sys import prefix
 from os import path
 from setuptools import setup
 
-print (path.join(prefix, 'var/imarker/web/js'))
+print (path.join(prefix, 'var/neuromath/web/js'))
+
+package = 'neuromath'
 
 setup(
-    packages=['image_marker'],
-    name='image-marker',
+    packages=[package],
+    name=package,
     version='0.0.1',
     description='Tag areas of image',
     author='Oleg Sivokon',
@@ -17,7 +19,7 @@ setup(
     url='TBD',
     license='MIT',
     package_data={
-        path.join(prefix, 'var/imarker/web'): [
+        path.join(prefix, 'var/{}/web'.format(package)): [
             'web/*.html',
             'web/*.js',
             'web/*/*.js',
@@ -31,7 +33,7 @@ setup(
     },
     data_files=[
         (path.join(prefix, 'bin'), ['bin/imarker']),
-        (path.join(prefix, 'var/imarker/web'), [
+        (path.join(prefix, 'var/{}/web'.format(package)), [
             'web/index.html',
             'web/otherlanguages.html',
             'web/belinsonbeelogo.jpg',
@@ -42,7 +44,7 @@ setup(
             'web/thoraxindex.html',
             'web/freelabel.html',
         ]),
-        (path.join(prefix, 'var/imarker/web/js'), [
+        (path.join(prefix, 'var/{}/web/js'.format(package)), [
             'web/js/bootstrap.bundle.min.js',
             'web/js/bootstrap.bundle.min.js.map',
             'web/js/jquery-3.3.1.min.js',
@@ -60,7 +62,7 @@ setup(
             'web/js/jstree.min.js',
             'web/js/tagger.js',
         ]),
-        (path.join(prefix, 'var/imarker/web/css'), [
+        (path.join(prefix, 'var/{}/web/css'.format(package)), [
             'web/css/bootstrap.min.css',
             'web/css/bootstrap.min.css.map',
             'web/css/datatables.min.css',
@@ -70,7 +72,7 @@ setup(
             'web/css/jquery.dataTables.min.css',
             'web/css/buttons.dataTables.min.css',
         ]),
-        (path.join(prefix, 'var/imarker/web/img'), [
+        (path.join(prefix, 'var/{}/web/img'.format(package)), [
             'web/img/t1.png',
         ])
     ],

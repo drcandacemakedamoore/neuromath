@@ -6,16 +6,16 @@ import logging
 from optparse import OptionParser
 from tornado.ioloop import IOLoop
 
-from image_marker.server import application
+from neuromath.server import application
 
 
 parser = OptionParser()
 parser.add_option(
     '-p', '--port',
     dest='port',
-    default=8080,
+    default=9090,
     help='''The port operated by HTTP server.
-            Defaults to 8080.''',
+            Defaults to 9090.''',
 )
 
 options, args = parser.parse_args()
