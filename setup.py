@@ -43,6 +43,12 @@ setup(
             'web/mskindex.html',
             'web/thoraxindex.html',
             'web/freelabel.html',
+            'web/2dabdoindex.html',
+            'web/2dbrainindex.html',
+            'web/2dheadandneckindex.html',
+            'web/2dmskindex.html',
+            'web/2dthoraxindex.html',
+            'web/2dfreelabel.html',
         ]),
         (path.join(prefix, 'var/{}/web/js'.format(package)), [
             'web/js/bootstrap.bundle.min.js',
