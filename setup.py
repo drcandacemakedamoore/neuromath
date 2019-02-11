@@ -33,7 +33,7 @@ setup(
     },
     data_files=[
         (path.join(prefix, 'bin'), ['bin/imarker']),
-        (path.join(prefix, 'var/{}/web'.format(package)), [
+        (path.join(prefix, 'var', package, 'web'), [
             'web/index.html',
             'web/otherlanguages.html',
             'web/belinsonbeelogo.jpg',
@@ -50,7 +50,7 @@ setup(
             'web/2dthoraxindex.html',
             'web/2dfreelabel.html',
         ]),
-        (path.join(prefix, 'var/{}/web/js'.format(package)), [
+        (path.join(prefix, 'var', package, 'web/js'), [
             'web/js/bootstrap.bundle.min.js',
             'web/js/bootstrap.bundle.min.js.map',
             'web/js/jquery-3.3.1.min.js',
@@ -68,7 +68,7 @@ setup(
             'web/js/jstree.min.js',
             'web/js/tagger.js',
         ]),
-        (path.join(prefix, 'var/{}/web/css'.format(package)), [
+        (path.join(prefix, 'var', package, 'web/css'), [
             'web/css/bootstrap.min.css',
             'web/css/bootstrap.min.css.map',
             'web/css/datatables.min.css',
@@ -78,7 +78,7 @@ setup(
             'web/css/jquery.dataTables.min.css',
             'web/css/buttons.dataTables.min.css',
         ]),
-        (path.join(prefix, 'var/{}/web/img'.format(package)), [
+        (path.join(prefix, 'var', package, 'web/img'), [
             'web/img/t1.png',
         ])
     ],

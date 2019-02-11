@@ -20,6 +20,7 @@ def project():
 
 
 class LandingPage(tornado.web.RequestHandler):
+
     def get(self):
         index = path.join(prefix, 'var/{}/web/index.html'.format(project()))
         with open(index, 'rb') as f:
@@ -43,7 +44,7 @@ class Upload(tornado.web.RequestHandler):
 
         uploaded = Upload.extractor.extract(dst)
         uploaded = path.relpath(uploaded, uploads)
-        self.finish(json.dumps(path.join('static/uploads', uploaded)))
+        self.finish(json.dumps(path.join('/static/uploads', uploaded)))
 
 
 class Sample(tornado.web.RequestHandler):
@@ -90,16 +91,17 @@ class Images(tornado.web.RequestHandler):
             'children': children,
             'id': id[0],
         }
-        for entry in scandir(subdir):
-            id[0] = id[0] + 1
-            if entry.is_dir():
-                children.append(self.list_subdirectories(entry.path, id))
-            else:
-                children.append({
-                    'text': entry.name,
-                    'id': id[0],
-                    'icon': 'jstree-file',
-                })
+        if path.isdir(subdir):
+            for entry in scandir(subdir):
+                id[0] = id[0] + 1
+                if entry.is_dir():
+                    children.append(self.list_subdirectories(entry.path, id))
+                else:
+                    children.append({
+                        'text': entry.name,
+                        'id': id[0],
+                        'icon': 'jstree-file',
+                    })
         return result
 
     def get(self):
@@ -126,5 +128,6 @@ application = tornado.web.Application(
         (r'/images/.*', Images),
         (r'/sample/.*', Sample),
     ],
-    static_path=path.join(prefix, 'var/{}/web/'.format(project())),
-    debug=True)
+    static_path=path.join(prefix, 'var', project(), 'web'),
+    debug=True,
+)

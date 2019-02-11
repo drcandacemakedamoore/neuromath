@@ -80,11 +80,17 @@ class Extractor:
 
     def extract_dicom(self, raw):
         ds = pydicom.dcmread(raw)
-        tag = (
-            ds.AcquisitionNumber,
-            ds[(0x2001, 0x100a)].value,
-            ds[(0x0008, 0x0013)].value,
-        )
+        tag = None
+
+        try:
+            tag = (
+                ds.AcquisitionNumber,
+                ds[(0x2001, 0x100a)].value,
+                ds[(0x0008, 0x0013)].value,
+            )
+        except KeyError:
+            tag = (ds.AcquisitionNumber, 'unknown', 'unknown')
+
         shape = ds.pixel_array.shape
         image_2d = ds.pixel_array.astype(float)
         image_2d_scaled = (np.maximum(image_2d, 0) / image_2d.max()) * 255.0

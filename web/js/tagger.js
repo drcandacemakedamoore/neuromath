@@ -68,6 +68,7 @@ $(function () {
 
     function updateImage(url) {
         var img = SVG.get("#sample-image");
+        console.log("loading: " + url);
         img.load(url).loaded(function(loader) {
             this.size(loader.width, loader.height);
             var parent = this.parent();
@@ -201,7 +202,7 @@ $(function () {
         for (var i = 0; i < parents.length; i++) {
             pnames.unshift(data.instance.get_node(parents[i]).text);
         }
-        updateImage("static/uploads" + pnames.join("/"));
+        updateImage("/static/uploads" + pnames.join("/"));
         resetTable();
         resetSwatches();
     });
