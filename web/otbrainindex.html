@@ -2,24 +2,24 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Voxelmath</title>
+    <title>Voxelmath Brain Textures</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/buttons.dataTables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/jstree.min.css"/>
     <style>
-      .liver { background-color: #61bb46 }
+      .pons { background-color: #61bb46 }
       .lesion { background-color: #fdb827 }
-      .psoas-muscle { background-color: #f5821f }
-      .other-muscle { background-color: #04b8cf }
-      .other-r-o-i { background-color: #c2cf04 }
-      .kidney { background-color: #2804cc }
-      .spleen { background-color: #e03a3a }
-      .bowel { background-color: #963d97 }
-      .lung { background-color: #3d7a97 }
-      .bone { background-color: #3e3d97 }
-      .fat { background-color: #ee1f98 }
+      .medulla { background-color: #f5821f }
+      .midbrain { background-color: #04b8cf }
+      .frontalwhitematter { background-color: #c2cf04 }
+      .frontalgreymatter { background-color: #2804cc }
+      .rightthalamus { background-color: #e03a3a }
+      .leftthalamus{ background-color: #963d97 }
+      .rightfornix { background-color: #3d7a97 }
+      .leftfornix { background-color: #3e3d97 }
+      .righthypothalamus { background-color: #ee1f98 }
       .swatch { position: absolute; left: 0; top: 0; width: 13px; height: 11px }
 
       td, th { text-align: left; }
@@ -143,7 +143,7 @@
       </div>
       <div class="navbar navbar-dark bg-dark box-shadow">
         <div class="container d-flex justify-content-between">
-          <a href="/index.html" class="navbar-brand d-flex align-items-center">
+          <a href="#" class="navbar-brand d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg"
                  width="20"
                  height="20"
@@ -158,7 +158,7 @@
               <circle cx="12" cy="13" r="4"></circle>
             </svg>
             <strong>Voxelmath</strong>
- 
+  
 
           </a>
           <button class="navbar-toggler" type="button"
@@ -230,11 +230,11 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Section</th>
-                      <th>Dissimilarity</th>
-                      <th>Correlation</th>
-                      <th>STD</th>
-                      <th>Entropy</th>
+                      <th>Total Sum</th>
+                      <th>Edge finder</th>
+                      <th>Air Finder</th>
+                      <th>Imagine</th>
+                      <th>Random</th>
                       <th>X</th>
                       <th>Y</th>
                     </tr>
@@ -251,77 +251,70 @@
                     class="btn btn-secondary lesion"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Lesion Area ">
+                    title="Lesion">
               Lesion 
             </button>
             
             </button>
-            <button id="liver"
+            <button id="pons"
                     type="button"
-                    class="btn btn-secondary liver"
+                    class="btn btn-secondary pons"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Liver Area">
-              Liver 
+                    title="Pons Area">
+              Pons
             </button>
-            <button id="bone"
+            <button id="medulla"
                     type="button"
-                    class="btn btn-secondary bone"
+                    class="btn btn-secondary medulla"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Bone Area">
-              Bone
-            </button>
-            <button id="fat"
-                    type="button"
-                    class="btn btn-secondary fat"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Fat Area">
-              Fat
-            </button>
-            <button id="lung"
-                    type="button"
-                    class="btn btn-secondary lung"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Lung Area">
-              Lung
-            </button>
-
-            <button id="kidney"
-                    type="button"
-                    class="btn btn-secondary kidney"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Kidney">
-              Kidney
+                    title="Medulla Area">
+              Medulla
             </button>
             
-            <button id="psoas-muscle"
+            <button id="midbrain"
                     type="button"
-                    class="btn btn-secondary psoas-muscle"
+                    class="btn btn-secondary midbrain"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Psoas Muscle">
-              Psoas Muscle 
+                    title="Midbrain Area">
+              Midbrain
             </button>
-            <button id="other-muscle"
+
+            <button id="frontalwhitematter"
                     type="button"
-                    class="btn btn-secondary other-muscle"
+                    class="btn btn-secondary frontalwhitematter"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Other Muscle">
-              Other Muscle
+                    title="Frontalwhitematter">
+              Frontal white matter
             </button>
-            <button id="spleen"
+            
+            <button id="frontalgreymatter"
                     type="button"
-                    class="btn btn-secondary spleen"
+                    class="btn btn-secondary frontalgreymatter"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Spleen">
+                    title="Frontal grey matter">
+              Frontal Grey Matter
+            </button>
+            <button id="rightthalamus"
+                    type="button"
+                    class="btn btn-secondary rightthalamus"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Right Thalamus">
+              Right Thalamus
+            </button>
+            <button id="leftthalamus"
+                    type="button"
+                    class="btn btn-secondary leftthalamus"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Left Thalamus">
                     
-              Spleen
+             Left Thalamus
             </button>
             <button id="other-r-o-i"
                     type="button"
@@ -332,13 +325,13 @@
                     
               Other-r-o-i
             </button>
-            <button id="bowel"
+            <button id="rightfornix"
                     type="button"
-                    class="btn btn-secondary bowel"
+                    class="btn btn-secondary rightfornix"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Bowel">
-              Bowel
+                    title="Right Fornix">
+              Right Fornix
             </button>
           </div>
         </div>
