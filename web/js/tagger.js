@@ -13,27 +13,9 @@ $(function () {
         e.stopPropagation();
     }
 
-    // Most of the time we don't need to pass more than one argument,
-    // but some JS api pass more useless arguments.
-    function $$ (x) { return $(x); }
+    var swatches = $('.btn-group > button');
 
-    var swatches = [
-        "#lesion",
-        "#liver",
-        "#psoas-muscle",
-        "#other-muscle",
-        "#kidney",
-        "#spleen",
-        "#bowel",
-        '#lung',
-        '#bone',
-        '#other-r-o-i',
-        '#fat'
-    ].map($$);
-
-    swatches.forEach(function (s) {
-        s.click(swatchOnClick);
-    });
+    swatches.click(swatchOnClick);
 
     function genTitle() {
         var chunks = SVG.get("#sample-image").src.split("/");
