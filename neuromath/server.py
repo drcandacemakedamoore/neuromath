@@ -11,8 +11,24 @@ import tornado
 import tornado.ioloop
 import tornado.web
 
+from jinja2 import Template, Undefined
+
 from .storage import Markers
 from .texture import Extractor, Marker
+from .models import Models
+
+
+class AllowEmpty(Undefined):
+
+    def _fail_with_undefined_error(self, *args, **kwargs):
+        return ''
+
+    __add__ = __radd__ = __mul__ = __rmul__ = __div__ = __rdiv__ = \
+        __truediv__ = __rtruediv__ = __floordiv__ = __rfloordiv__ = \
+        __mod__ = __rmod__ = __pos__ = __neg__ = __call__ = \
+        __getitem__ = __lt__ = __le__ = __gt__ = __ge__ = __int__ = \
+        __float__ = __complex__ = __pow__ = __rpow__ = \
+        _fail_with_undefined_error
 
 
 def project():
@@ -22,10 +38,35 @@ def project():
 class LandingPage(tornado.web.RequestHandler):
 
     def get(self):
-        index = path.join(prefix, 'var/{}/web/index.html'.format(project()))
+        index = path.join(prefix, 'var', project(), 'web/index.html')
         with open(index, 'rb') as f:
             self.set_header('Content-type', 'text/html')
             self.write(f.read())
+
+
+class Templates:
+
+    def for_page(self, page):
+        return path.join(
+            prefix,
+            'var',
+            project(),
+            'web/templates/section.html',
+        )
+
+
+class Sections(tornado.web.RequestHandler):
+
+    models = Models()
+    templates = Templates()
+
+    def get(self):
+        tpl_path = self.templates.for_page(self.request.path)
+        with open(tpl_path, 'r') as tpl_body:
+            tpl = Template(tpl_body.read(), undefined=AllowEmpty)
+            self.set_header('Content-type', 'text/html')
+            model = self.models.for_page(self.request.path)
+            self.write(tpl.render(**model))
 
 
 class Upload(tornado.web.RequestHandler):
@@ -35,7 +76,7 @@ class Upload(tornado.web.RequestHandler):
     def post(self):
         fileinfo = self.request.files['file'][0]
         fname = fileinfo['filename']
-        uploads = path.join(prefix, 'var/{}/web/uploads'.format(project()))
+        uploads = path.join(prefix, 'var', project(), 'web/uploads')
         pathlib.Path(uploads).mkdir(parents=True, exist_ok=True)
         dst = path.join(uploads, fname)
 
@@ -65,7 +106,7 @@ class Sample(tornado.web.RequestHandler):
     def sample_image(self, args):
         data = json.loads(self.request.body)
         area = [int(x) for x in data['area']]
-        image = path.join(prefix, 'var/{}/web/uploads'.format(project()), *(args[2:]))
+        image = path.join(prefix, 'var', project(), 'web/uploads', *(args[2:]))
         marker = Marker(image, area, None)
         patch = marker.extract_patch(area[:2], area[2:])
         stats = [float(x) for x in marker.texture_stats(patch)]
@@ -124,6 +165,7 @@ class Images(tornado.web.RequestHandler):
 application = tornado.web.Application(
     handlers=[
         (r'/', LandingPage),
+        (r'/sections/.*', Sections),
         (r'/file-upload', Upload),
         (r'/images/.*', Images),
         (r'/sample/.*', Sample),

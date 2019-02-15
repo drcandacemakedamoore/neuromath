@@ -43,7 +43,6 @@ setup(
             'web/mskindex.html',
             'web/thoraxindex.html',
             'web/freelabel.html',
-            'web/2dabdoindex.html',
             'web/2dbrainindex.html',
             'web/2dheadandneckindex.html',
             'web/2dmskindex.html',
@@ -80,7 +79,10 @@ setup(
         ]),
         (path.join(prefix, 'var', package, 'web/img'), [
             'web/img/t1.png',
-        ])
+        ]),
+        (path.join(prefix, 'var', package, 'web/templates'), [
+            'web/templates/section.html',
+        ]),
     ],
     install_requires=[
         'pandas >= 0.23.1',
@@ -93,6 +95,7 @@ setup(
         'pydicom >= 1.1.0',
         'pydicom-ext >= 0.4.7',
         'pypng >= 0.0.18',
+        'jinja2 >= 2.10',
     ],
     tests_require=[
         'pytest >= 3.4.2',

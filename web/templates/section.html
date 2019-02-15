@@ -9,17 +9,9 @@
     <link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/jstree.min.css"/>
     <style>
-      .liver { background-color: #61bb46 }
-      .lesion { background-color: #fdb827 }
-      .psoas-muscle { background-color: #f5821f }
-      .other-muscle { background-color: #04b8cf }
-      .other-r-o-i { background-color: #c2cf04 }
-      .kidney { background-color: #2804cc }
-      .spleen { background-color: #e03a3a }
-      .bowel { background-color: #963d97 }
-      .lung { background-color: #3d7a97 }
-      .bone { background-color: #3e3d97 }
-      .fat { background-color: #ee1f98 }
+      {% for swatch in swatches %}
+      .{{ swatch.name }} { background-color: {{ swatch.color }} }
+      {% endfor %}
       .swatch { position: absolute; left: 0; top: 0; width: 13px; height: 11px }
 
       td, th { text-align: left; }
@@ -246,100 +238,16 @@
             </div>
           </div>
           <div class="btn-group btn-group-sm" role="group" aria-label="...">
-            <button id="lesion"
+            {% for swatch in swatches %}
+            <button id="{{ swatch.name }}"
                     type="button"
-                    class="btn btn-secondary lesion"
+                    class="btn btn-secondary {{ swatch.name }}"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Lesion Area ">
-              Lesion 
+                    title="{{ swatch.title }}">
+              {{ swatch.name | title }}
             </button>
-            
-            </button>
-            <button id="liver"
-                    type="button"
-                    class="btn btn-secondary liver"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Liver Area">
-              Liver 
-            </button>
-            <button id="bone"
-                    type="button"
-                    class="btn btn-secondary bone"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Bone Area">
-              Bone
-            </button>
-            <button id="fat"
-                    type="button"
-                    class="btn btn-secondary fat"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Fat Area">
-              Fat
-            </button>
-            <button id="lung"
-                    type="button"
-                    class="btn btn-secondary lung"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Lung Area">
-              Lung
-            </button>
-
-            <button id="kidney"
-                    type="button"
-                    class="btn btn-secondary kidney"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Kidney">
-              Kidney
-            </button>
-            
-            <button id="psoas-muscle"
-                    type="button"
-                    class="btn btn-secondary psoas-muscle"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Psoas Muscle">
-              Psoas Muscle 
-            </button>
-            <button id="other-muscle"
-                    type="button"
-                    class="btn btn-secondary other-muscle"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Other Muscle">
-              Other Muscle
-            </button>
-            <button id="spleen"
-                    type="button"
-                    class="btn btn-secondary spleen"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Spleen">
-                    
-              Spleen
-            </button>
-            <button id="other-r-o-i"
-                    type="button"
-                    class="btn btn-secondary other-r-o-i"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Other-r-o-i">
-                    
-              Other-r-o-i
-            </button>
-            <button id="bowel"
-                    type="button"
-                    class="btn btn-secondary bowel"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Bowel">
-              Bowel
-            </button>
+            {% endfor %}
           </div>
         </div>
         <div class="container">
