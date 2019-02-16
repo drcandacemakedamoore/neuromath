@@ -41,6 +41,7 @@ setup(
             'web/headandneckindex.html',
             'web/mskindex.html',
             'web/thoraxindex.html',
+            'web/3dsplash.html',
         ]),
         (path.join(prefix, 'var', package, 'web/js'), [
             'web/js/bootstrap.bundle.min.js',
