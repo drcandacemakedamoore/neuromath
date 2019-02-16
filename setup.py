@@ -19,7 +19,7 @@ setup(
     url='TBD',
     license='MIT',
     package_data={
-        path.join(prefix, 'var/{}/web'.format(package)): [
+        path.join(prefix, 'var', package, 'web'): [
             'web/*.html',
             'web/*.js',
             'web/*/*.js',
@@ -37,17 +37,10 @@ setup(
             'web/index.html',
             'web/otherlanguages.html',
             'web/belinsonbeelogo.jpg',
-            'web/abdoindex.html',
             'web/brainindex.html',
             'web/headandneckindex.html',
             'web/mskindex.html',
             'web/thoraxindex.html',
-            'web/freelabel.html',
-            'web/2dbrainindex.html',
-            'web/2dheadandneckindex.html',
-            'web/2dmskindex.html',
-            'web/2dthoraxindex.html',
-            'web/2dfreelabel.html',
         ]),
         (path.join(prefix, 'var', package, 'web/js'), [
             'web/js/bootstrap.bundle.min.js',
